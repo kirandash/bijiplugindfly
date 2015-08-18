@@ -59,3 +59,6 @@ get_header(); ?>
 	</div><!-- .content-area -->
 
 <?php get_footer(); ?>
+
+<?php bloginfo('description'); ?>
+<?php add_copyright(); ?>
