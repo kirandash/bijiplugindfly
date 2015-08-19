@@ -12,7 +12,7 @@ function bdetector_activate()
 {
 	global $wpdb;
 	
-	$table_name = $wpdb->prefix . "bdetector";
+	$table_name = $wpdb->prefix . 'bdetector';
 	
 	// will return NULL if there isn't one
 	if ( $wpdb->get_var('SHOW TABLES LIKE ' . $table_name) != $table_name )
@@ -31,3 +31,14 @@ function bdetector_activate()
 }
 
 register_activation_hook(__FILE__,'bdetector_activate');
+
+function bdetector_insert_useragent()
+{
+	global $wpdb;
+	
+	$table_name = $wpdb->prefix . 'bdetector';
+	
+	$wpdb->insert($table_name,array('user_agent'=>$_SERVER['HTTP_USER_AGENT']),array('%s'));
+}
+
+add_action('wp_footer','bdetector_insert_useragent');
