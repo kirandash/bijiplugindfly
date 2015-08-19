@@ -11,7 +11,7 @@ Author URI: http://www.falkonproductions.com/
 function cccomm_option_page()
 {
 	// first...process form data?
-	if ( $_POST['cccomm_hidden'] == 'Y' )
+	if ( check_admin_referer('cccomm_admin_options-update') )
 	{
 		update_option( 'cccomm_cc_email', $_POST['cc_email']);
 		?>
@@ -28,7 +28,7 @@ function cccomm_option_page()
 		type="text" id="cc_email" name="cc_email"
 		value="<?php echo esc_attr( get_option('cccomm_cc_email') ); ?>" /></h3>
 	<p><input type="submit" name="submit" value="Update Email" /></p>
-	<input type="hidden" name="cccomm_hidden" value="Y" />
+	<?php wp_nonce_field('cccomm_admin_options-update'); ?>
 	</form>
 	</div>
 	<?php
@@ -44,7 +44,7 @@ function cc_comment()
 {
 	global $_REQUEST;
 	
-	$to = "drew@falkonproductions.com";
+	$to = "drew@somewhere.com";
 	$subject = "New comment posted @ yourblog " . $_REQUEST['subject'];
 	$message = "Message from: " . $_REQUEST['name'] . " at email: " . $_REQUEST['email'] . ": \n" . $_REQUEST['comments'];
 	wp_mail($to,$subject,$message);
