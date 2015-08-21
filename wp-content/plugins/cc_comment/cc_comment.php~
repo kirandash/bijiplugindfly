@@ -48,9 +48,7 @@ function cc_comment()
 
 add_action('comment_post','cc_comment');
 
-if( function_exists('register_uninstall_hook') ){
-	register_uninstall_hook(__FILE__,'cccomm_uninstall');
-}
+register_uninstall_hook(__FILE__,'cccomm_uninstall');
 
 function cccomm_uninstall()
 {
