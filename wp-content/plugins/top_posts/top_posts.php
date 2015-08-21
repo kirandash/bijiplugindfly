@@ -10,17 +10,18 @@ Author URI: http://www.falkonproductions.com/
 
 function tpp_posts_widget()
 {
+	$tpp_posts_query = new WP_Query();
+	$tpp_posts_query->get_posts();
+	
 	?>
 	<h3>Posts on this page:</h3>
-	<?php if ( have_posts()) : 
-			while ( have_posts()) : 
-				the_post();
+	<?php if ( $tpp_posts_query->have_posts()) : 
+			while ( $tpp_posts_query->have_posts()) : 
+				$tpp_posts_query->the_post();
 	?>
-	<div>
 	<a href="<?php echo the_permalink(); ?>"
 		title="<?php echo the_title(); ?>"><?php echo the_title(); ?></a>
 		(<?php echo comments_number(); ?>)
-	</div>
 	<?php 	endwhile; 
 		  endif; 
 	?>
