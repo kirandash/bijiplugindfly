@@ -10,8 +10,10 @@ Author URI: http://www.falkonproductions.com/
 
 function tpp_posts_widget()
 {
-	$tpp_posts_query = new WP_Query();
-	$tpp_posts_query->get_posts();
+	$tpp_posts_query = new WP_Query(array('posts_per_page' => 10, 
+											'orderby' => 'comment_count',
+											'order' => 'DESC',
+											'post__in' => get_option('sticky_posts'))  );
 	
 	?>
 	<h3>Posts on this page:</h3>
@@ -21,7 +23,7 @@ function tpp_posts_widget()
 	?>
 	<a href="<?php echo the_permalink(); ?>"
 		title="<?php echo the_title(); ?>"><?php echo the_title(); ?></a>
-		(<?php echo comments_number(); ?>)
+		(<?php echo comments_number(); ?>) <br />
 	<?php 	endwhile; 
 		  endif; 
 	?>
