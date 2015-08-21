@@ -38,7 +38,9 @@ function bdetector_insert_useragent()
 	
 	$table_name = $wpdb->prefix . 'bdetector';
 	
-	$wpdb->insert($table_name,array('user_agent'=>$_SERVER['HTTP_USER_AGENT']),array('%s'));
+	//$wpdb->insert($table_name,array('user_agent'=>$_SERVER['HTTP_USER_AGENT']),array('%s'));
+	$safe_sql = $wpdb->prepare('INSERT INTO ' . $table_name . ' SET user_agent = %1$s',$_SERVER['HTTP_USER_AGENT']);
+	$wpdb->query($safe_sql);
 }
 
 add_action('wp_footer','bdetector_insert_useragent');
