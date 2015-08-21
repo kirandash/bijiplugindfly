@@ -10,29 +10,27 @@ Author URI: http://www.falkonproductions.com/
 
 function tpp_posts_widget()
 {
-	$tpp_posts_query = new WP_Query();
-	$tpp_posts_query->get_posts();
+	$tpp_posts_query = new WP_Query(array('posts_per_page' => 10, 
+											'orderby' => 'comment_count',
+											'order' => 'DESC',
+											'post__in' => get_option('sticky_posts'))  );
+	
 	?>
-	<h3>Posts on this page:</h3>
-	<?php if ( $tpp_posts_query->have_posts() ):
-		while ( $tpp_posts_query->have_posts() ):
-			$tpp_posts_query->the_post();
+	<h3><?php _e('Posts on this page:') ?></h3>
+	<?php if ( $tpp_posts_query->have_posts()) : 
+			while ( $tpp_posts_query->have_posts()) : 
+				$tpp_posts_query->the_post();
 	?>
-	<div>
 	<a href="<?php echo the_permalink(); ?>"
 		title="<?php echo the_title(); ?>"><?php echo the_title(); ?></a>
-	(<?php echo comments_number(); ?>)
-	</div>
-	<?php endwhile;
-		endif;
+		(<?php echo comments_number(); ?>) <br />
+	<?php 	endwhile; 
+		  endif; 
 	?>
 	<?php 
 }
 
 function tpp_posts_widget_init() {
-	if ( function_exists('register_sidebar_widget') )
-	{
-		register_sidebar_widget('Top Posts', 'tpp_posts_widget');
-	}
+	register_sidebar_widget('Top Posts', 'tpp_posts_widget');
 }
 add_action('widgets_init','tpp_posts_widget_init');
